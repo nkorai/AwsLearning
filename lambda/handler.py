@@ -2,13 +2,11 @@ import json
 import os
 import uuid
 import logging
-from typing import Dict
 
 import boto3
 
 LOG = logging.getLogger()
 LOG.setLevel(logging.INFO)
-
 
 def main(event, context):
     LOG.info("EVENT: " + json.dumps(event))
@@ -68,7 +66,7 @@ def create_short_url(event):
 
     return {
         'statusCode': 200,
-        'headers': {'Content-Type': 'text/plain'},
+        'headers': {'Content-Type': 'text/plain', 'Access-Control-Allow-Origin': '*'},
         'body': "Created URL: %s" % url
     }
 
@@ -98,6 +96,7 @@ def read_short_url(event):
     return {
         'statusCode': 301,
         'headers': {
-            'Location': item.get('target_url')
+            'Location': item.get('target_url'),
+            'Access-Control-Allow-Origin': '*'
         }
     }
