@@ -2,6 +2,7 @@ import json
 import os
 import uuid
 import logging
+from typing import Any, Union
 
 import boto3
 
@@ -59,15 +60,17 @@ def create_short_url(event):
     })
 
     # Create the redirect URL
-    url = "https://" \
+    url: str = "https://" \
         + event["requestContext"]["domainName"] \
         + event["requestContext"]["path"] \
         + id
 
+    formattedUrl = '%s' % url;
+
     return {
         'statusCode': 200,
         'headers': {'Content-Type': 'text/plain', 'Access-Control-Allow-Origin': '*'},
-        'body': "Created URL: %s" % url
+        'body': json.dumps({'Url': formattedUrl})
     }
 
 

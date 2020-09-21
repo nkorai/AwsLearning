@@ -1,13 +1,13 @@
 function generateURL()
 {
-  let inputElement = document.getElementById('longURL') as HTMLInputElement;
+  let inputElement = document.getElementById('long-url') as HTMLInputElement;
   let longUrl = inputElement.value;
   makeHttpRequest(longUrl, (message: string) => { alert(message) });
 }
   
 async function makeHttpRequest(targetURL: string, onSuccess: Function) 
 {
-  let myUrl = `https://xj0sreihya.execute-api.us-west-2.amazonaws.com/prod/?targetURL=${targetURL}`;
+  let myUrl = `https://xj0sreihya.execute-api.us-west-2.amazonaws.com/prod/?targetUrl=${targetURL}`;
 
   const response = await fetch(myUrl, {
     method: 'GET',
@@ -18,10 +18,14 @@ async function makeHttpRequest(targetURL: string, onSuccess: Function)
   
   // If you care about a response:
   if (response.body !== null) {
-    // body is ReadableStream<Uint8Array>
-    // parse as needed, e.g. reading directly, or
-    //const asString = new TextDecoder("utf-8").decode(response.body);
-    // and further:
-    //const asJSON = JSON.parse(asString);  // implicitly 'any', make sure to verify type on runtime.
+    const asJson = await response.json();
+    console.log(asJson);
+
+    const urlResponse = Object.assign(new UrlResponse, asJson) as UrlResponse;
+    console.log(urlResponse.Url);
   }
+}
+
+class UrlResponse{
+  public Url?: string;
 }

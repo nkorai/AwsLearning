@@ -36,35 +36,39 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 function generateURL() {
-    var inputElement = document.getElementById('longURL');
+    var inputElement = document.getElementById('long-url');
     var longUrl = inputElement.value;
     makeHttpRequest(longUrl, function (message) { alert(message); });
 }
 function makeHttpRequest(targetURL, onSuccess) {
     return __awaiter(this, void 0, void 0, function () {
-        var myUrl, response;
+        var myUrl, response, asJson, urlResponse;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    myUrl = "https://xj0sreihya.execute-api.us-west-2.amazonaws.com/prod/?targetURL=" + targetURL;
+                    myUrl = "https://xj0sreihya.execute-api.us-west-2.amazonaws.com/prod/?targetUrl=" + targetURL;
                     return [4 /*yield*/, fetch(myUrl, {
-                            mode: 'cors',
                             method: 'GET',
                             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                         })];
                 case 1:
                     response = _a.sent();
                     if (!response.ok) { /* Handle */ }
-                    // If you care about a response:
-                    if (response.body !== null) {
-                        // body is ReadableStream<Uint8Array>
-                        // parse as needed, e.g. reading directly, or
-                        //const asString = new TextDecoder("utf-8").decode(response.body);
-                        // and further:
-                        //const asJSON = JSON.parse(asString);  // implicitly 'any', make sure to verify type on runtime.
-                    }
-                    return [2 /*return*/];
+                    if (!(response.body !== null)) return [3 /*break*/, 3];
+                    return [4 /*yield*/, response.json()];
+                case 2:
+                    asJson = _a.sent();
+                    console.log(asJson);
+                    urlResponse = Object.assign(new UrlResponse, asJson);
+                    console.log(urlResponse.Url);
+                    _a.label = 3;
+                case 3: return [2 /*return*/];
             }
         });
     });
 }
+var UrlResponse = /** @class */ (function () {
+    function UrlResponse() {
+    }
+    return UrlResponse;
+}());
