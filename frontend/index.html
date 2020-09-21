@@ -21,11 +21,17 @@
   <!-- Add your site or application content here -->
   <script type="text/javascript" src="./main.js"></script>
 
-  <div id="content-container">
-      <div id="heading">Url Shortener (but not really)</div>
-      <input id="long-url" type="text"></input>
-      <button id="long-url-button" onclick="generateURL();">Generate Short URL</button>
-  </div>
+    <div id="content-container">
+        <div id="heading">Url Shortener (but not really)</div>
+        <input id="long-url" type="text"></input>
+        <button id="long-url-button" onclick="generateURL();">Generate Short URL</button>
+    </div>
+
+    <div id="result-container">
+        <div id="heading">Shortened Url</div>
+        <input id="short-url" type="text"></input>
+        <button id="short-url-button" onclick="copyUrl();">Copy</button>
+    </div>
 </body>
 
 </html>

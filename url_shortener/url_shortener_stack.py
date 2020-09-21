@@ -1,6 +1,6 @@
 from aws_cdk import core
 from aws_cdk.core import Construct, Duration
-from aws_cdk import aws_dynamodb, aws_lambda, aws_apigateway, aws_sns, aws_sqs, aws_sns_subscriptions
+from aws_cdk import aws_dynamodb, aws_lambda, aws_apigateway, aws_sns, aws_s3, aws_s3_deployment, aws_sns_subscriptions
 
 from cdk_watchful import Watchful
 
@@ -38,6 +38,16 @@ class UrlShortenerStack(core.Stack):
 
         # define the API endpoint and associate the handler
         api = aws_apigateway.LambdaRestApi(self, "UrlShortenerApi", handler=handler)
+
+        # define the static website hosting
+        frontendBucket = aws_s3.Bucket(self, "UrlShortenerWebsiteBucket",
+                                       public_read_access=True,
+                                       removal_policy=core.RemovalPolicy.DESTROY,
+                                       website_index_document="index.html")
+
+        deployment = aws_s3_deployment.BucketDeployment(self, "deployStaticWebsite",
+                                                        sources=[aws_s3_deployment.Source.asset("./frontend")],
+                                                        destination_bucket=frontendBucket)
 
         # define a Watchful monitoring system and watch the entire scope
         # this will automatically find all watchable resources and add

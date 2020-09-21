@@ -27,6 +27,7 @@ setuptools.setup(
         "aws-cdk.aws-events-targets",
         "aws-cdk.aws-lambda",
         "aws-cdk.aws-s3",
+        "aws-cdk.aws-s3-deployment",
         "aws-cdk.aws-ec2",
         "aws-cdk.aws-ecs-patterns",
         "aws-cdk.aws-certificatemanager",
